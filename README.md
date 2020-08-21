@@ -8,5 +8,4 @@ Os dados coletados são:
   - Temperatura do ar (C)
   - Sensação térmica (C)
   - Umidade do solo (%)
-  - Posição geográfica (decimal)
-  
+  - Posição geográfica (decimal)  
