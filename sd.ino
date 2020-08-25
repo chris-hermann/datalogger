@@ -17,8 +17,8 @@ File myFile;
 const int CS = 10;
 char temp_ar[8], umid_ar[8], w_lat[16], w_lon[16], w_data[16], w_hora[16], w_realfeel[8];
 float celsius, humidity;
-float f_lat, f_lon, valor_umidsolo;
-int ano, PIN_SOLO = A0, read_umidsolo;
+float f_lat, f_lon, valor_umidsolo, read_umidsolo;
+int ano, PIN_SOLO = A0;
 byte mes, dia, hora, minuto, seg;
 bool newData = false;
 
@@ -60,19 +60,22 @@ void loop()
     gps.f_get_position(&f_lat, &f_lon);
     gps.crack_datetime(&ano, &mes, &dia, &hora, &minuto, &seg);
     hora -= 3;
+    for(hora = 253; hora <= 255; hora++)
+    {
+      hora += 24;
+    }
   }
   
   celsius = dht.readTemperature();
   humidity = dht.readHumidity();
   read_umidsolo = analogRead(PIN_SOLO);
-  valor_umidsolo = 100 * ((1024 - read_umidsolo)/1024);
+  valor_umidsolo = 100 * (1 -(read_umidsolo/1024));
   float realfeel = dht.computeHeatIndex(celsius, humidity, false);
 
   
   if(isnan(celsius) || isnan(humidity))
   {
     Serial.println("Falha no sensor de temperatura e umidade do ar!");
-    loop;
   }
   
   dtostrf(f_lat, 10, 6, w_lat);
